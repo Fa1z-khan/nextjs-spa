@@ -10,7 +10,6 @@
     "format": "biome format",
     "test": "vitest",
     "test:staged": "vitest --run",
-    "lint:staged": "biome check --error-on-warnings --no-errors-on-unmatched --staged ./**/*.{js,ts}",
     "prepare": "husky"
   },
   "husky": {
@@ -19,7 +18,6 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": ["pnpm run test:staged"],
     "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
       "biome check --write --no-errors-on-unmatched",
       "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched",
