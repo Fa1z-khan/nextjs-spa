@@ -94,6 +94,7 @@ pnpm exec husky add .husky/pre-commit "pnpm run lint:staged"
 - `pnpm run dev`: Start the development server
 - `pnpm run build`: Build the production version
 - `pnpm run start`: Start the production server
+- `pnpx serve@latest out`: Start the production server (for `output:"exports"` mode)
 - `pnpm run lint`: Run the linter
 - `pnpm run format`: Format the code
 - `pnpm run test`: Run tests
