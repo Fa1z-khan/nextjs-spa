@@ -1,40 +1,103 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Setting up Next.js SPA with Biome.js, Vitest, Tailwind, Husky, and lint-staged
 
-## Getting Started
+## Prerequisites
 
-First, run the development server:
+- Node.js (v20 or later)
+- pnpm (package manager)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Installation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Create a new Next.js app:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+pnpm create next-app@latest my-app
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. Install required dependencies:
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+cd my-app
+pnpm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. Configure Tailwind CSS:
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+pnpm exec tailwindcss init -p
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+4. Update `tailwind.config.js` with the required plugins:
+
+
+module.exports = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('tailwindcss-debug-screens'),
+  ],
+}
+
+
+5. Update `styles/globals.css` with Tailwind directives:
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+6. Configure Vitest:
+
+
+pnpm exec vitest init
+
+
+7. Update `vitest.config.js` with the required setup:
+
+
+import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './test/setup.js',
+  },
+})
+
+
+8. Create `test/setup.js` and add the following code:
+
+
+import '@testing-library/jest-dom/extend-expect'
+
+
+9. Configure Husky and lint-staged:
+
+
+pnpm exec husky install
+pnpm pkg set scripts.prepare="husky install"
+pnpm exec husky add .husky/pre-commit "pnpm run lint:staged"
+
+
+## Usage
+
+- `pnpm run dev`: Start the development server
+- `pnpm run build`: Build the production version
+- `pnpm run start`: Start the production server
+- `pnpm run lint`: Run the linter
+- `pnpm run format`: Format the code
+- `pnpm run test`: Run tests
+- `pnpm run test:staged`: Run tests on staged files
+- `pnpm run lint:staged`: Run linter on staged files
+
+Now you have a Next.js SPA set up with Biome.js, Vitest, Tailwind CSS, Husky, and lint-staged for linting, testing, and formatting your code on commit.
